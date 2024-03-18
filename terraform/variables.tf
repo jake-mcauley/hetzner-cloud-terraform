@@ -23,4 +23,9 @@ variable "ssh_keys" {
   default     = "render_fm_ssh"
 }
 
+variable "ssh_private_key_path" {
+  description = "Private SSH Key"
+  default     = ""
+  
+}
 

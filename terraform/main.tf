@@ -23,7 +23,7 @@ resource "hcloud_server" "render_fm_server" {
     connection {
       type        = "ssh"
       user        = "root"
-      private_key = file("${path.module}/.ssh/id_rsa")
+      private_key = file(var.ssh_private_key_path)
       host        = self.ipv4_address
     }
   }
