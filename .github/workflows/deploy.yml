@@ -31,7 +31,7 @@ jobs:
       - name: Terraform Plan
         id: plan
         run: |
-          terraform plan -var="ssh_private_key_path=${{ github.workspace }}/.ssh/id_rsa" -out=tfplan
+          terraform plan -out=tfplan
           terraform show -no-color tfplan > plan.txt
         working-directory: ./terraform
         
