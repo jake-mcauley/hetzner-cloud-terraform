@@ -33,6 +33,7 @@ jobs:
         run: |
           terraform plan -var="ssh_private_key_path=${{ github.workspace }}/.ssh/id_rsa" -out=tfplan
           terraform show -no-color tfplan > plan.txt
+        working-directory: ./terraform
         
         continue-on-error: true
 
@@ -66,13 +67,17 @@ jobs:
         run: terraform init
         env:
             TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
+        working-directory: ./terraform
+
 
       - name: Download Terraform Plan
         uses: actions/download-artifact@v2
         with:
           name: terraform-plan
-          path: .
+          path: ./terraform/plan.txt
 
       - name: Terraform Apply
         run: terraform apply -var="ssh_private_key_path=${{ github.workspace }}/.ssh/id_rsa" -auto-approve tfplan
+        working-directory: ./terraform
+
           
