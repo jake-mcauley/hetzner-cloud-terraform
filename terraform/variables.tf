@@ -1,6 +1,6 @@
 variable "hcloud_token" {
     description = "Hetzner Cloud API Token"
-    default     = ""
+    type        = string
 }
 
 variable "server_type" {
@@ -25,7 +25,7 @@ variable "ssh_keys" {
 
 variable "ssh_private_key_path" {
   description = "Private SSH Key"
-  default     = ""
+  type        = string
   
 }
 
