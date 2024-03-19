@@ -15,8 +15,6 @@ jobs:
           mkdir -p ${{ github.workspace }}/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ${{ github.workspace }}/.ssh/id_rsa
           chmod 600 ${{ github.workspace }}/.ssh/id_rsa
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
@@ -57,8 +55,6 @@ jobs:
           mkdir -p ${{ github.workspace }}/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ${{ github.workspace }}/.ssh/id_rsa
           chmod 600 ${{ github.workspace }}/.ssh/id_rsa
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
