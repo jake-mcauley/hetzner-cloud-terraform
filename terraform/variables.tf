@@ -19,13 +19,12 @@ variable "location" {
 }
 
 variable "ssh_keys" {
-  description = "Name of SSH Key to inject into the server"
-  default     = "render_fm_ssh"
+  description = "List of SSH key names to inject into the server"
+  type        = list(string)
+  default     = ["render_fm_ssh"]
 }
 
 variable "ssh_private_key_path" {
-  description = "Private SSH Key"
+  description = "Path to the SSH private key"
   type        = string
-  
 }
-
