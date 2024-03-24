@@ -29,7 +29,7 @@ jobs:
 
       - name: Debug - Show HCLOUD_TOKEN is set
         run: |
-            echo "HCLOUD_TOKEN is set to '${{ secrets.HCLOUD_TOKEN != '' }}'"
+            echo "'${{ secrets.HCLOUD_TOKEN }}'"
         
 
       - name: Terraform Plan
