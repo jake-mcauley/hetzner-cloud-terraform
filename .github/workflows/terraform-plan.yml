@@ -10,6 +10,10 @@ jobs:
     env:
       TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }} 
     steps:    
+      - name: Check environment variable length
+        run: |
+          echo "Length of TF_VAR_hcloud_token is ${#TF_VAR_hcloud_token}"
+
       - name: Checkout code
         uses: actions/checkout@v3
 
