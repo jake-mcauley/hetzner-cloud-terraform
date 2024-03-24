@@ -2,25 +2,14 @@ name: Terraform Plan
 
 on:
   workflow_call:
-    inputs:
-      environment:
-        description: 'Target environment for deployment'
-        required: true
-        type: string
-
   workflow_dispatch:
 
 jobs:
   terraform_plan:
-    environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     env:
-      TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
-    steps:
-      - name: Check token length
-        run: |
-          echo "Token length: ${#TF_VAR_hcloud_token}"
-    
+      TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }} 
+    steps:    
       - name: Checkout code
         uses: actions/checkout@v3
 
