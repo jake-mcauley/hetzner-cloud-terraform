@@ -10,6 +10,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ${{ github.workspace }}/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ${{ github.workspace }}/.ssh/id_rsa
+          chmod 600 ${{ github.workspace }}/.ssh/id_rsa
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
