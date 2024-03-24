@@ -9,15 +9,10 @@ on:
         type: string
 
   workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Target environment for deployment'
-        required: true
-        type: string
 
 jobs:
   terraform_plan:
-    environment: ${{ inputs.environment}}
+    environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     env:
       TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
@@ -48,4 +43,5 @@ jobs:
         run: |
           terraform plan -input=false -var="ssh_private_key_path=${{ github.workspace }}/.ssh/id_rsa" -out=tfplan
         working-directory: ./terraform
+
 
