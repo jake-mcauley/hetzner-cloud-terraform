@@ -1,7 +1,6 @@
 name: Deploy
 
 on:
-
   workflow_dispatch:
     inputs:
       environment:
@@ -14,10 +13,10 @@ on:
 
 jobs:
   terraform_plan:
-    uses: ./.github/workflows/terraform-plan.yml@main
+    uses: ./.github/workflows/terraform-plan.yml
 
   terraform_apply:
     needs: terraform_plan
-    uses: ./.github/workflows/terraform-apply.yml@main
+    uses: ./.github/workflows/terraform-apply.yml
     with:
       environment: ${{ inputs.environment }}
