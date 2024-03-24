@@ -11,6 +11,8 @@ jobs:
   terraform_apply:
     runs-on: ubuntu-latest
     if: github.event.inputs.confirm == 'yes'
+    env:
+        TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -33,5 +35,5 @@ jobs:
         working-directory: ./terraform
 
       - name: Terraform Apply
-        run: terraform apply -input=false -auto-approve
+        run: terraform apply -input=false -var="ssh_private_key_path=${{ github.workspace }}/.ssh/id_rsa" -auto-approve
         working-directory: ./terraform
