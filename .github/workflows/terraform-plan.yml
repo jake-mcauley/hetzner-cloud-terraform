@@ -1,7 +1,12 @@
 name: Terraform Plan
 
 on:
-  workflow_dispatch:
+  workflow_call:
+    inputs:
+      environment:
+        description: 'Target environment for deployment'
+        required: true
+        type: string
 
 jobs:
   terraform_plan:

@@ -1,11 +1,12 @@
 name: Terraform Apply
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
-      confirm:
-        description: 'Type "yes" to confirm terraform apply'
+      environment:
+        description: 'Target environment for deployment'
         required: true
+        type: string
 
 jobs:
   terraform_apply:
