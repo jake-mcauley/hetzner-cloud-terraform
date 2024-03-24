@@ -14,9 +14,13 @@ on:
 jobs:
   terraform_plan:
     uses: ./.github/workflows/terraform-plan.yml
+    secrets:
+      hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
 
   terraform_apply:
     needs: terraform_plan
     uses: ./.github/workflows/terraform-apply.yml
     with:
       environment: ${{ inputs.environment }}
+    secrets:
+      hcloud_token: ${{ secrets.HCLOUD_TOKEN }}

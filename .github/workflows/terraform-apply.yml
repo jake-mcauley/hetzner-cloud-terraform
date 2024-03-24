@@ -7,6 +7,10 @@ on:
         description: 'Target environment for deployment'
         required: true
         type: string
+      hcloud_token:
+        required: true
+        description: Hetzner Cloud API Token
+        type: secret
 
   workflow_dispatch:
     inputs:
@@ -14,13 +18,17 @@ on:
         description: 'Target environment for deployment'
         required: true
         type: string
+      hcloud_token:
+        required: true
+        description: Hetzner Cloud API Token
+        type: secret
 
 jobs:
   terraform_apply:
     environment: ${{ inputs.environment}}
     runs-on: ubuntu-latest
     env:
-        TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
+      TF_VAR_hcloud_token: ${{ inputs.hcloud_token }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
