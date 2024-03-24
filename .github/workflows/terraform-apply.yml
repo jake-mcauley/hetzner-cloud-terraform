@@ -21,7 +21,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
         TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
