@@ -1,6 +1,16 @@
 name: Deploy
 
 on:
+  workflow_call:
+    inputs:
+      environment:
+        type: choice
+        description: 'Target environment for deployment'
+        options:
+        - production
+        - staging
+        
+
   workflow_dispatch:
 
 jobs:
