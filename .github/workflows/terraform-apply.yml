@@ -20,7 +20,7 @@ jobs:
     environment: ${{ inputs.environment}}
     runs-on: ubuntu-latest
     env:
-      TF_VAR_hcloud_token: ${{ secrets.hcloud_token }}
+      TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
