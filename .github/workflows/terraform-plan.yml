@@ -27,6 +27,11 @@ jobs:
         env:
           TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
 
+      - name: Debug - Show HCLOUD_TOKEN is set
+        run: |
+            echo "HCLOUD_TOKEN is set to '${{ secrets.HCLOUD_TOKEN != '' }}'"
+        
+
       - name: Terraform Plan
         run: |
           terraform plan -input=false -var="ssh_private_key_path=${{ github.workspace }}/.ssh/id_rsa" -out=tfplan
