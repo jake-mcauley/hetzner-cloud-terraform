@@ -2,24 +2,14 @@ name: Terraform Plan
 
 on:
   workflow_call:
-    inputs:
-      hcloud_token:
-        required: true
-        description: Hetzner Cloud API Token
-        type: secret
 
   workflow_dispatch:
-    inputs:
-      hcloud_token:
-        required: true
-        description: Hetzner Cloud API Token
-        type: secret
 
 jobs:
   terraform_plan:
     runs-on: ubuntu-latest
     env:
-      TF_VAR_hcloud_token: ${{ inputs.hcloud_token }}
+      TF_VAR_hcloud_token: ${{ secrets.hcloud_token }}
     steps:
       - name: Check token length
         run: |
