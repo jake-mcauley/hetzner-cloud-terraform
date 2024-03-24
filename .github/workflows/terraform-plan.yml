@@ -3,7 +3,7 @@ name: Terraform Plan
 on:
   workflow_call:
     secrets:
-      HCLOUD:
+      HCLOUD_TOKEN:
         required: true
   workflow_dispatch:
 
