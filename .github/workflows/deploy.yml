@@ -1,80 +1,38 @@
-name: Deploy Terraform
+name: Manual Deployment
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment for deployment'
+        required: true
+        type: choice
+        options:
+          - staging
+          - production
 
 jobs:
-  terraform_plan:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      - name: Setup SSH Key
-        run: |
-          mkdir -p ${{ github.workspace }}/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ${{ github.workspace }}/.ssh/id_rsa
-          chmod 600 ${{ github.workspace }}/.ssh/id_rsa
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: "1.7.5"
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: "1.7.5"
-      
-      - name: Terraform Init
-        run: terraform init
-        working-directory: ./terraform
-        env:
-          TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
+    - name: Initialize Terraform
+      run: terraform init
+      working-directory: ./terraform/${{ github.event.inputs.environment }}
 
-      - name: Terraform Plan
-        id: plan
-        run: |
-          terraform plan -input=false -var="ssh_private_key_path=${{ github.workspace }}/.ssh/id_rsa" -out=tfplan
-          terraform show -no-color tfplan > plan.txt
-        working-directory: ./terraform
-        continue-on-error: true
+    - name: Terraform Plan
+      run: terraform plan
+      working-directory: ./terraform/${{ github.event.inputs.environment }}
 
-      - name: Upload Terraform Plan
-        uses: actions/upload-artifact@v2
-        with:
-          name: terraform-plan
-          path: tfplan
-
-  terraform_apply:
-    needs: terraform_plan
-    runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch'
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup SSH Key
-        run: |
-          mkdir -p ${{ github.workspace }}/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ${{ github.workspace }}/.ssh/id_rsa
-          chmod 600 ${{ github.workspace }}/.ssh/id_rsa
-      
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: "1.7.5"
-      
-      - name: Terraform Init
-        run: terraform init
-        env:
-            TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
-        working-directory: ./terraform
-
-
-      - name: Download Terraform Plan
-        uses: actions/download-artifact@v2
-        with:
-          name: terraform-plan
-          path: ./terraform
-
-      - name: Terraform Apply
-        run: terraform apply -var="ssh_private_key_path=${{ github.workspace }}/.ssh/id_rsa" -auto-approve tfplan
-        working-directory: ./terraform
-
-          
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
+      working-directory: ./terraform/${{ github.event.inputs.environment }}
+      env:
+        TF_VAR_selected_environment: ${{ github.event.inputs.environment }}
