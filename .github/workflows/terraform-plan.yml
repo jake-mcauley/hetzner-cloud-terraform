@@ -6,6 +6,8 @@ on:
 jobs:
   terraform_plan:
     runs-on: ubuntu-latest
+    env:
+      TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }}  # Set the environment variable at the job level
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -24,21 +26,12 @@ jobs:
       - name: Terraform Init
         run: terraform init
         working-directory: ./terraform
-        env:
-          TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
-
-      - name: Debug - Show HCLOUD_TOKEN is set
-        run: |
-            echo "'${{ secrets.HCLOUD_TOKEN }}'"
-        
 
       - name: Terraform Plan
         run: |
-          terraform plan -input=false -var="ssh_private_key_path=${{ github.workspace }}/.ssh/id_rsa" -out=tfplan
+          terraform plan -input=false -out=tfplan
           terraform show -no-color tfplan > plan.txt
         working-directory: ./terraform
-        env:
-            TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
         continue-on-error: true
 
       - name: Upload Terraform Plan
