@@ -2,16 +2,17 @@ name: Terraform Plan
 
 on:
   workflow_call:
+    secrets:
+      HCLOUD:
+        required: true
   workflow_dispatch:
 
 jobs:
   terraform_plan:
     runs-on: ubuntu-latest
+    env:
+      TF_VAR_hcloud_token: ${{ inputs.HCLOUD_TOKEN }}
     steps:    
-      - name: Check environment variable length
-        run: |
-          echo "Length of TF_VAR_hcloud_token is ${#TF_VAR_hcloud_token}"
-
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -28,15 +29,11 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-        env:
-          TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
         working-directory: ./terraform
 
       - name: Terraform Plan
         run: |
           terraform plan -input=false -var="ssh_private_key_path=${{ github.workspace }}/.ssh/id_rsa" -out=tfplan
-        env:
-          TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
         working-directory: ./terraform
 
 
