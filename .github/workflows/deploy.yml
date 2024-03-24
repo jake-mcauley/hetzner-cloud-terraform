@@ -14,8 +14,7 @@ on:
 jobs:
   terraform_plan:
     uses: ./.github/workflows/terraform-plan.yml
-    secrets:
-      HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
+    secrets: inherit
 
   terraform_apply:
     needs: terraform_plan

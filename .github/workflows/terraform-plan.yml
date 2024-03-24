@@ -2,16 +2,13 @@ name: Terraform Plan
 
 on:
   workflow_call:
-    secrets:
-      HCLOUD_TOKEN:
-        required: true
   workflow_dispatch:
 
 jobs:
   terraform_plan:
     runs-on: ubuntu-latest
     env:
-      TF_VAR_hcloud_token: ${{ inputs.HCLOUD_TOKEN }}
+      TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
     steps:    
       - name: Checkout code
         uses: actions/checkout@v3
