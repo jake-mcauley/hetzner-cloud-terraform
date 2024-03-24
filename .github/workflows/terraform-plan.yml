@@ -28,14 +28,10 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-        env:
-          TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
         working-directory: ./terraform
 
       - name: Terraform Plan
         run: |
           terraform plan -input=false -var="ssh_private_key_path=${{ github.workspace }}/.ssh/id_rsa" -out=tfplan
-        env:
-          TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
         working-directory: ./terraform
 
