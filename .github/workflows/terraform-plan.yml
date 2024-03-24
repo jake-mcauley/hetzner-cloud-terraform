@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
-      
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -22,7 +22,7 @@ jobs:
           chmod 600 ${{ github.workspace }}/.ssh/id_rsa
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: "1.7.5"
 
