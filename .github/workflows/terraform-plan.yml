@@ -37,6 +37,8 @@ jobs:
           terraform plan -input=false -var="ssh_private_key_path=${{ github.workspace }}/.ssh/id_rsa" -out=tfplan
           terraform show -no-color tfplan > plan.txt
         working-directory: ./terraform
+        env:
+            TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
         continue-on-error: true
 
       - name: Upload Terraform Plan
