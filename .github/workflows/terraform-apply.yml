@@ -8,15 +8,22 @@ on:
         required: true
         type: string
 
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment for deployment'
+        required: true
+        type: string
+
 jobs:
   terraform_apply:
+    environment: ${{ inputs.environment}}
     runs-on: ubuntu-latest
-    if: github.event.inputs.confirm == 'yes'
     env:
         TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup SSH Key
         run: |
