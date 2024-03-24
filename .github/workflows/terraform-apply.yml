@@ -1,0 +1,37 @@
+name: Terraform Apply
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "yes" to confirm terraform apply'
+        required: true
+
+jobs:
+  terraform_apply:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.confirm == 'yes'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ${{ github.workspace }}/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ${{ github.workspace }}/.ssh/id_rsa
+          chmod 600 ${{ github.workspace }}/.ssh/id_rsa
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: "1.7.5"
+      
+      - name: Terraform Init
+        run: terraform init
+        env:
+            TF_VAR_hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
+        working-directory: ./terraform
+
+      - name: Terraform Apply
+        run: terraform apply -input=false -auto-approve
+        working-directory: ./terraform

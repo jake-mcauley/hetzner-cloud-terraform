@@ -71,7 +71,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: terraform-plan
-          path: ./terraform/plan.txt
+          path: ./terraform
 
       - name: Terraform Apply
         run: terraform apply -var="ssh_private_key_path=${{ github.workspace }}/.ssh/id_rsa" -auto-approve tfplan
