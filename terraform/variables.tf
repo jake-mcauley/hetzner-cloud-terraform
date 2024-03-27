@@ -2,6 +2,11 @@ variable "hcloud_token" {
     description = "Hetzner Cloud API Token"
 }
 
+variable "server_name" {
+  description = "Name of server to deploy"
+  default     = "render-fm-server"
+}
+
 variable "server_type" {
   description = "Type of server to deploy"
   default     = "cx11"

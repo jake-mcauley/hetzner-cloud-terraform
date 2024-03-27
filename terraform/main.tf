@@ -1,5 +1,5 @@
 resource "hcloud_server" "render_fm_server" {
-  name        = "render_fm_server"
+  name        = var.server_name
   image       = var.image
   server_type = var.server_type
   location    = var.location
