@@ -9,7 +9,7 @@ variable "server_name" {
 
 variable "server_type" {
   description = "Type of server to deploy"
-  default     = "cx11"
+  default     = "CAX11"
 }
 
 variable "image" {
